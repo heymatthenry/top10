@@ -5,6 +5,8 @@ import ids from '../../data/ids.json';
 const API_URL = `https://api.discogs.com/`;
 const TOKEN = process.env.DISCOGS_API_KEY;
 
+const albums = await Astro.glob('../pages/albums/*.md');
+
 const getAlbum = (id: Number): Promise<{}> => {
 	const reqHeaders = new Headers();
 	const reqUrl =`${API_URL}masters/${id}` 
@@ -16,11 +18,12 @@ const getAlbum = (id: Number): Promise<{}> => {
 	return fetch(req);
 }
 
-const albums = await Promise.all(
-	ids.map(async (id: Number): {} => { 
-		const response = await getAlbum(id);
-		const data = await response.json()
-		return data;
+const albumsWithCoverArt = await Promise.all(
+	albums.map(async (a: { discogs_id: Number }): {} => { 
+		const response = await getAlbum(a.frontmatter.discogs_id);
+		const data = await response.json();
+		const coverArtUri = data.images[0].uri;
+		return {...a, coverArtUri};
 	})
 )
 
@@ -28,7 +31,7 @@ import Album from  '../components/Album.astro'
 ---
 
 <ul class="album-list">
-	{ albums.map(album => <Album {album} />) }
+	{ albumsWithCoverArt.map(album => <Album {album} />) }
 </ul>
 
 <style>

@@ -7,18 +7,18 @@ const { album } = Astro.props;
 	<details>
 		<summary>
 			<Image 
-				src={ album.images[0].uri } 
+				src={ album.coverArtUri } 
 				width={400} 
 				aspectRatio={1/1} 
-				alt={'Album cover for ' + album.title}
+				alt={'Album cover for ' + album.frontmatter.title}
 			/>
 		</summary>
 		<div class="info">
 			<div class="artist">
-				{album.artists[0].name.replace(/\s\(\d\)/, "")}
+				{album.frontmatter.artist}
 			</div>
 			<div class="title">
-				{album.title}
+				{album.frontmatter.title}
 			</div>
 		</div>
 	</details>
