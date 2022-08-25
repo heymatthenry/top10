@@ -1,28 +1,31 @@
 ---
+import Layout from '../layouts/Layout.astro';
 import { Image } from '@astrojs/image/components';
 const { album } = Astro.props;
 ---
 
-<li class="album">
-	<details>
-		<summary>
-			<Image 
-				src={ album.images[0].uri } 
-				width={400} 
-				aspectRatio={1/1} 
-				alt={'Album cover for ' + album.title}
-			/>
-		</summary>
-		<div class="info">
-			<div class="artist">
-				{album.artists[0].name.replace(/\s\(\d\)/, "")}
+<Layout>
+	<li class="album">
+		<details>
+			<summary>
+				<Image 
+					src={ album.images[0].uri } 
+					width={400} 
+					aspectRatio={1/1} 
+					alt={'Album cover for ' + album.title}
+				/>
+			</summary>
+			<div class="info">
+				<div class="artist">
+					{album.artists[0].name.replace(/\s\(\d\)/, "")}
+				</div>
+				<div class="title">
+					{album.title}
+				</div>
 			</div>
-			<div class="title">
-				{album.title}
-			</div>
-		</div>
-	</details>
-</li>
+		</details>
+	</li>
+</Layout>
 
 <style>
 .album img {
@@ -37,6 +40,11 @@ summary {
 	height: 400px;
 	list-style: none;
 }
+
+summary::-webkit-details-marker {
+  display:none;
+}
+
 
 summary:focus {
 	outline: 3px dashed hotpink;
