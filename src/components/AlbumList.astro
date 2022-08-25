@@ -1,0 +1,44 @@
+---
+import dotenv from 'dotenv';
+dotenv.config();
+import ids from '../../data/ids.json';
+const API_URL = `https://api.discogs.com/`;
+const TOKEN = process.env.DISCOGS_API_KEY;
+
+const getAlbum = (id: Number): Promise<{}> => {
+	const reqHeaders = new Headers();
+	const reqUrl =`${API_URL}masters/${id}` 
+
+	reqHeaders.append('Authorization', `Discogs token=${TOKEN}`);
+	reqHeaders.append('User-Agent', `TopTen/0.1`);
+
+	const req = new Request(reqUrl, {headers: reqHeaders})
+	return fetch(req);
+}
+
+const albums = await Promise.all(
+	ids.map(async (id: Number): {} => { 
+		const response = await getAlbum(id);
+		const data = await response.json()
+		return data;
+	})
+)
+
+import Album from  '../components/Album.astro'
+---
+
+<ul class="album-list">
+	{ albums.map(album => <Album {album} />) }
+</ul>
+
+<style>
+.album-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 3rem;
+	justify-content: center;
+	list-style-type: none;
+	max-width: 100vw;
+	margin: 0 auto;
+}
+</style>
