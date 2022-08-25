@@ -1,0 +1,57 @@
+---
+import { Image } from '@astrojs/image/components';
+const { album } = Astro.props;
+---
+
+<li class="album">
+	<details>
+		<summary>
+			<Image 
+				src={ album.images[0].uri } 
+				width={400} 
+				aspectRatio={1/1} 
+				alt={'Album cover for ' + album.title}
+			/>
+		</summary>
+		<div class="info">
+			<div class="artist">
+				{album.artists[0].name.replace(/\s\(\d\)/, "")}
+			</div>
+			<div class="title">
+				{album.title}
+			</div>
+		</div>
+	</details>
+</li>
+
+<style>
+.album img {
+	box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+}
+
+details {
+	font-size: 1.2rem;
+}
+
+summary {
+	height: 400px;
+	list-style: none;
+}
+
+summary:focus {
+	outline: 3px dashed hotpink;
+}
+
+.info {
+	padding-top: 1rem;
+}
+
+.artist {
+	font-size: 1.5rem;
+	font-weight: 700;
+}
+
+.title {
+	font-style: italic;
+}
+</style>
