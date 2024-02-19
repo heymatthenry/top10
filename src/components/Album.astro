@@ -1,15 +1,13 @@
 ---
-import { Image } from '@astrojs/image/components';
 const { album } = Astro.props;
 ---
 
 <li class="album">
 	<details>
 		<summary>
-			<Image 
+			<img 
 				src={ album.coverArtUri } 
 				width={400} 
-				aspectRatio={1/1} 
 				alt={'Album cover for ' + album.frontmatter.title}
 			/>
 		</summary>
@@ -27,6 +25,7 @@ const { album } = Astro.props;
 <style>
 .album img {
 	box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  aspect-ratio: 1/1;
 }
 
 details {
